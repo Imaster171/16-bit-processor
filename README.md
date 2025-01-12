@@ -30,6 +30,19 @@ This project implements a 16-bit processor with basic arithmetic operations (ADD
 - `Makefile`: Makefile to compile and run the testbench.
 - `README.md`: This file.
 
+## Overview
+
+The 16-bit processor is designed to execute basic arithmetic operations such as ADD, SUB, ADDI, and SUBI. The processor consists of several components:
+
+- **Instruction Memory**: Stores the instructions to be executed by the processor.
+- **Register File**: Contains 8 registers, each 16 bits wide, to store intermediate values.
+- **ALU (Arithmetic Logic Unit)**: Performs arithmetic operations on the operands.
+- **Program Counter**: Keeps track of the current instruction being executed.
+
+### Block Diagram
+
+![Processor Block Diagram](https://example.com/processor_block_diagram.png)
+
 ## Instructions
 
 ### Compile the Project
@@ -55,6 +68,15 @@ To clean the compiled files, run the following command:
 ```sh
 make clean
 ```
+
+## How It Works
+
+1. **Instruction Fetch**: The program counter (PC) provides the address to the instruction memory, which fetches the instruction to be executed.
+2. **Instruction Decode**: The instruction is decoded to determine the operation (opcode) and the registers involved.
+3. **Operand Fetch**: The register file provides the operands for the ALU based on the decoded instruction.
+4. **Execute**: The ALU performs the arithmetic operation specified by the opcode.
+5. **Write Back**: The result of the ALU operation is written back to the register file.
+6. **Update PC**: The program counter is updated to point to the next instruction.
 
 ## Example Output
 
