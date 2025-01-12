@@ -1,3 +1,8 @@
+`include "instruction_memory.v"
+`include "register_file.v"
+`include "alu.v"
+`include "program_counter.v"
+
 module processor (
     input clk,                      // Clock signal
     input reset,                    // Reset signal
