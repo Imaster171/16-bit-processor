@@ -15,7 +15,7 @@ module processor_tb;
     initial begin
         // Initialize signals
         clk = 0;
-        reset = 5;
+        reset = 1;
 
         // Apply reset
         #10 reset = 0;
