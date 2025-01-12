@@ -1,5 +1,3 @@
-`include "processor.v"
-
 module processor_tb;
 
     reg clk;
@@ -12,18 +10,18 @@ module processor_tb;
     );
 
     // Clock generation
-    always #5 clk = ~clk; // 10 time units period
+    always #10 clk = ~clk; // 10 time units period
 
     initial begin
         // Initialize signals
         clk = 0;
-        reset = 1;
+        reset = 5;
 
         // Apply reset
         #10 reset = 0;
 
-        // Run until PC reaches 5
-        wait (uut.pc == 4);
+        // Run until PC reaches 10
+        wait (uut.pc == 10);
         #10 $finish;
     end
 

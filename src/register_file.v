@@ -13,6 +13,18 @@ module register_file(
     // Declare the register file with 8 registers, each 16 bits wide
     reg [15:0] reg_file [7:0];      // 8 registers, each 16 bits wide
 
+    // Initialize registers with default values
+    initial begin
+        reg_file[0] = 16'b0;
+        reg_file[1] = 16'b0;
+        reg_file[2] = 16'b0;
+        reg_file[3] = 16'b0;
+        reg_file[4] = 16'b0;
+        reg_file[5] = 16'b0;
+        reg_file[6] = 16'b0;
+        reg_file[7] = 16'b0;
+    end
+
     // Asynchronous read operations
     always @(*) begin
         read_data1 = reg_file[read_addr1]; // Read data from register 1

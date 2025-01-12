@@ -1,10 +1,7 @@
-`include "instruction_memory.v"
-`include "register_file.v"
-`include "alu.v"
-
 module processor (
     input clk,                      // Clock signal
-    input reset                     // Reset signal
+    input reset,                    // Reset signal
+    output [9:0] pc                 // Program counter
 );
 
     // Wires for connecting modules
@@ -16,9 +13,8 @@ module processor (
     wire [15:0] alu_result;
     wire zero;
     reg [15:0] operand_b;
-
-    // Program counter
-    reg [9:0] pc;
+    wire branch;
+    wire [9:0] branch_address;
 
     // Instruction memory instance
     instruction_memory imem (
@@ -48,6 +44,15 @@ module processor (
         .zero(zero)
     );
 
+    // Program counter instance
+    program_counter pc_inst (
+        .clk(clk),
+        .reset(reset),
+        .branch(branch),
+        .branch_address(branch_address),
+        .pc(pc)
+    );
+
     // Instruction decoding
     assign opcode = instruction[15:13];
     assign read_addr1 = instruction[9:7];
@@ -65,13 +70,8 @@ module processor (
         endcase
     end
 
-    // Program counter update
-    always @(posedge clk or posedge reset) begin
-        if (reset) begin
-            pc <= 10'b0;
-        end else begin
-            pc <= pc + 1;
-        end
-    end
+   // Branch logic (example, not implemented)
+   //assign branch = (opcode == 3'b100); // Example branch condition
+   //assign branch_address = read_data1[9:0]; // Example branch address
 
 endmodule
