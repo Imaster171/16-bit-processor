@@ -10,13 +10,9 @@ module alu (
         case (opcode)
             3'b000: result = a + b;      // ADD
             3'b001: result = a - b;      // SUB
-            3'b010: result = a & b;      // AND
-            3'b011: result = a | b;      // OR
-            3'b100: result = a ^ b;      // XOR
-            3'b101: result = (a < b) ? 16'b1 : 16'b0; // SLT
-            3'b110: result = a << 1;     // Shift left
-            3'b111: result = a >> 1;     // Shift right
-            default: result = 16'b0;      // Default case
+            3'b010: result = a + b;      // ADDI
+            3'b011: result = a - b;      // SUBI
+            default: result = 16'b0;     // Default case
         endcase
         
         zero = (result == 16'b0); // Set zero flag if result is zero
