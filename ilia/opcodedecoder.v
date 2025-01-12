@@ -1,3 +1,4 @@
+`include "RegisterFile.v"
 module OpcodeDecoder (
     input wire clk,
     input wire reset,
@@ -24,7 +25,8 @@ module OpcodeDecoder (
         .write_data(write_data),
         .write_enable(write_enable),
         .read_data1(read_data1),
-        .read_data2(read_data2)
+        .read_data2(read_data2),
+        .init_values(init_values)
     );
 
     always @(*) begin

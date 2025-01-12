@@ -6,6 +6,7 @@ module RegisterFile (
     input wire [2:0] write_addr,         // Write address (3-bit)
     input wire [15:0] write_data,        // Data to write (16-bit)
     input wire write_enable,             // Write enable signal (1 bit)
+    input wire [15:0] init_values [0:7], // Array to initialize registers
     output reg [15:0] read_data1,        // Data from register 1 (16-bit)
     output reg [15:0] read_data2         // Data from register 2 (16-bit)
 );
@@ -22,15 +23,15 @@ module RegisterFile (
     // Synchronous write operation
     always @(posedge clk or posedge reset) begin
         if (reset) begin
-            // Reset all registers to 0 on reset signal
-            registers[0] <= 16'b0;
-            registers[1] <= 16'b0;
-            registers[2] <= 16'b0;
-            registers[3] <= 16'b0;
-            registers[4] <= 16'b0;
-            registers[5] <= 16'b0;
-            registers[6] <= 16'b0;
-            registers[7] <= 16'b0;
+            // Initialize registers with init_values on reset signal
+            registers[0] <= init_values[0];
+            registers[1] <= init_values[1];
+            registers[2] <= init_values[2];
+            registers[3] <= init_values[3];
+            registers[4] <= init_values[4];
+            registers[5] <= init_values[5];
+            registers[6] <= init_values[6];
+            registers[7] <= init_values[7];
         end
         else if (write_enable) begin
             // Write data to the register if write_enable is high

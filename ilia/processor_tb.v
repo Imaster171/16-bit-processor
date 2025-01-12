@@ -1,3 +1,4 @@
+`include "Processor.v"
 module Processor_tb;
     reg clk;
     reg reset;

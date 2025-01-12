@@ -1,3 +1,4 @@
+`include "OpcodeDecoder.v"
 module Processor (
     input wire clk,
     input wire reset,
