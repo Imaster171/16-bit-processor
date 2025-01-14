@@ -3,6 +3,7 @@ module program_counter (
     input reset,                    // Reset signal
     input branch_enable,            // Branch enable signal
     input [9:0] branch_address,     // Branch address
+    input [9:0] next_pc,            // Next PC value for JALR
     output reg [9:0] pc             // Program counter
 );
 
@@ -13,7 +14,7 @@ module program_counter (
         end else if (branch_enable) begin
             pc <= pc + branch_address; // Branch to address
         end else begin
-            pc <= pc + 1; // Increment PC
+            pc <= next_pc; // Set PC to next_pc
         end
     end
 

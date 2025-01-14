@@ -22,15 +22,15 @@ module processor_tb;
         // Apply reset
         #10 reset = 0;
 
-        // Run until PC reaches 5
-        wait (uut.pc == 6);
+        // Run until PC reaches 6
+        wait (uut.pc == 7);
         #10 $finish;
     end
 
     // Monitor the processor state
     always @(posedge clk) begin
-        $display("Time: %0t | PC: %0d | Instruction: %b | Opcode: %b | ReadAddr1: %d | ReadAddr2: %d | WriteAddr: %d | ReadData1: %d | ReadData2: %d | ALUResult: %d | WriteEnable: %b | BEQ: %b | BranchAddr: %d",
-                 $time, uut.pc, uut.instruction, uut.opcode, uut.read_addr1, uut.read_addr2, uut.write_addr, uut.read_data1, uut.read_data2, uut.alu_result, uut.write_enable, uut.branch_enable, uut.branch_address);
+        $display("Time: %0t | PC: %0d | Instruction: %b | Opcode: %b ",
+                 $time, uut.pc, uut.instruction, uut.opcode);
     end
 
     always @(negedge clk) begin

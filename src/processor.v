@@ -21,6 +21,7 @@ module processor (
     reg [15:0] operand_b;
     wire [9:0] branch_address;
     wire branch_enable;
+    reg [9:0] next_pc;
 
     // Instruction memory instance
     instruction_memory imem (
@@ -56,6 +57,7 @@ module processor (
         .reset(reset),
         .branch_enable(branch_enable),
         .branch_address(branch_address),
+        .next_pc(next_pc), // Pass next_pc to program_counter
         .pc(pc)
     );
 
@@ -64,8 +66,8 @@ module processor (
     assign read_addr1 = instruction[9:7];
     assign read_addr2 = (opcode == 3'b001 || opcode == 3'b010) ? 3'b000 : instruction[2:0]; // Use 0 for immediate instructions
     assign write_addr = instruction[12:10];
-    assign write_data = alu_result;
-    assign write_enable = (opcode == 3'b000 || opcode == 3'b001 || opcode == 3'b010); // ADD, ADDI, SUBI
+    assign write_data = (opcode == 3'b100) ? pc : alu_result; // Store current PC in rA for JALR
+    assign write_enable = (opcode == 3'b000 || opcode == 3'b001 || opcode == 3'b010 || (opcode == 3'b100 && instruction[6:0] == 7'b0000000)); // ADD, ADDI, SUBI, JALR
 
     // Branch enable logic
     assign branch_enable = (opcode == 3'b011) && (regfile.reg_file[instruction[12:10]] == regfile.reg_file[instruction[9:7]]); // BEQ
@@ -78,6 +80,15 @@ module processor (
             3'b010: operand_b = {12'b0, instruction[3:0]}; // SUBI
             default: operand_b = read_data2; // Default to read_data2 for other instructions
         endcase
+    end
+
+    // JALR logic
+    always @(*) begin
+        if (opcode == 3'b100) begin
+            next_pc = regfile.reg_file[read_addr1]; // Set next PC to the value in rB
+        end else begin
+            next_pc = pc + 1; // Default to incrementing PC
+        end
     end
 
 endmodule
