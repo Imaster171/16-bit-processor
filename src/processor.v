@@ -18,8 +18,8 @@ module processor (
     wire [15:0] alu_result;
     wire zero;
     reg [15:0] operand_b;
-    wire branch;
     wire [9:0] branch_address;
+    wire branch_enable;
 
     // Instruction memory instance
     instruction_memory imem (
@@ -53,7 +53,7 @@ module processor (
     program_counter pc_inst (
         .clk(clk),
         .reset(reset),
-        .branch(branch),
+        .branch_enable(branch_enable),
         .branch_address(branch_address),
         .pc(pc)
     );
@@ -66,6 +66,10 @@ module processor (
     assign write_data = alu_result;
     assign write_enable = (opcode == 3'b000 || opcode == 3'b001 || opcode == 3'b010 || opcode == 3'b011); // ADD, SUB, ADDI, SUBI
 
+    // Branch enable logic
+    assign branch_enable = (opcode == 3'b100) && (regfile.reg_file[instruction[12:10]] == regfile.reg_file[instruction[9:7]]); // BEQ
+    assign branch_address = branch_enable ? {3'b0, instruction[6:0]} : 10'b0; // Immediate value for BEQ or zero if not branching
+
     // Operand B selection
     always @(*) begin
         case (opcode)
@@ -74,9 +78,5 @@ module processor (
             default: operand_b = read_data2; // Default to read_data2 for other instructions
         endcase
     end
-
-   // Branch logic (example, not implemented)
-   //assign branch = (opcode == 3'b100); // Example branch condition
-   //assign branch_address = read_data1[9:0]; // Example branch address
 
 endmodule
