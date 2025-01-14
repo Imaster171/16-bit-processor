@@ -62,20 +62,20 @@ module processor (
     // Instruction decoding
     assign opcode = instruction[15:13];
     assign read_addr1 = instruction[9:7];
-    assign read_addr2 = (opcode == 3'b010 || opcode == 3'b011) ? 3'b000 : instruction[2:0]; // Use 0 for immediate instructions
+    assign read_addr2 = (opcode == 3'b001 || opcode == 3'b010) ? 3'b000 : instruction[2:0]; // Use 0 for immediate instructions
     assign write_addr = instruction[12:10];
     assign write_data = alu_result;
-    assign write_enable = (opcode == 3'b000 || opcode == 3'b001 || opcode == 3'b010 || opcode == 3'b011); // ADD, SUB, ADDI, SUBI
+    assign write_enable = (opcode == 3'b000 || opcode == 3'b001 || opcode == 3'b010); // ADD, ADDI, SUBI
 
     // Branch enable logic
-    assign branch_enable = (opcode == 3'b100) && (regfile.reg_file[instruction[12:10]] == regfile.reg_file[instruction[9:7]]); // BEQ
+    assign branch_enable = (opcode == 3'b011) && (regfile.reg_file[instruction[12:10]] == regfile.reg_file[instruction[9:7]]); // BEQ
     assign branch_address = branch_enable ? {{3{instruction[6]}}, instruction[6:0]} : 10'b0; // Sign-extended immediate value for BEQ or zero if not branching
 
     // Operand B selection
     always @(*) begin
         case (opcode)
-            3'b010: operand_b = {12'b0, instruction[3:0]}; // ADDI
-            3'b011: operand_b = {12'b0, instruction[3:0]}; // SUBI
+            3'b001: operand_b = {12'b0, instruction[3:0]}; // ADDI
+            3'b010: operand_b = {12'b0, instruction[3:0]}; // SUBI
             default: operand_b = read_data2; // Default to read_data2 for other instructions
         endcase
     end

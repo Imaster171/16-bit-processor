@@ -22,8 +22,8 @@ module processor_tb;
         // Apply reset
         #10 reset = 0;
 
-        // Run until PC reaches 6
-        wait (uut.pc == 7);
+        // Run until PC reaches 5
+        wait (uut.pc == 6);
         #10 $finish;
     end
 

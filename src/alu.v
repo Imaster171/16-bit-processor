@@ -9,9 +9,8 @@ module alu (
     always @(*) begin
         case (opcode)
             3'b000: result = a + b;      // ADD
-            3'b001: result = a - b;      // SUB
-            3'b010: result = a + b;      // ADDI
-            3'b011: result = a - b;      // SUBI
+            3'b001: result = a + b;      // ADDI
+            3'b010: result = a - b;      // SUBI
             default: result = 16'b0;     // Default case
         endcase
         
