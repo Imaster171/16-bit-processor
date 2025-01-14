@@ -22,8 +22,8 @@ module processor_tb;
         // Apply reset
         #10 reset = 0;
 
-        // Run until PC reaches 6
-        wait (uut.pc == 7);
+        // Run until PC reaches 8
+        wait (uut.pc == 9);
         #10 $finish;
     end
 
@@ -35,8 +35,8 @@ module processor_tb;
 
     always @(negedge clk) begin
         $display("Registers: r0: %0d | r1: %0d | r2: %0d | r3: %0d | r4: %0d | r5: %0d | r6: %0d | r7: %0d",
-                 uut.regfile.reg_file[0], uut.regfile.reg_file[1], uut.regfile.reg_file[2], uut.regfile.reg_file[3],
-                 uut.regfile.reg_file[4], uut.regfile.reg_file[5], uut.regfile.reg_file[6], uut.regfile.reg_file[7]);
+                 $signed(uut.regfile.reg_file[0]), $signed(uut.regfile.reg_file[1]), $signed(uut.regfile.reg_file[2]), $signed(uut.regfile.reg_file[3]),
+                 $signed(uut.regfile.reg_file[4]), $signed(uut.regfile.reg_file[5]), $signed(uut.regfile.reg_file[6]), $signed(uut.regfile.reg_file[7]));
     end
 
 endmodule

@@ -76,8 +76,8 @@ module processor (
     // Operand B selection
     always @(*) begin
         case (opcode)
-            3'b001: operand_b = {12'b0, instruction[3:0]}; // ADDI
-            3'b010: operand_b = {12'b0, instruction[3:0]}; // SUBI
+            3'b001: operand_b = {{12{instruction[3]}}, instruction[3:0]}; // Sign-extended ADDI
+            3'b010: operand_b = {{12{instruction[3]}}, instruction[3:0]}; // Sign-extended SUBI
             default: operand_b = read_data2; // Default to read_data2 for other instructions
         endcase
     end

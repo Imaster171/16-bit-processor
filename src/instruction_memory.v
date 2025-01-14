@@ -12,9 +12,11 @@ module instruction_memory (
         memory[1] = 16'b100_000_011_0000000; // JALR r0, r3
         memory[2] = 16'b001_001_000_0000100; // ADDI r1, r0, 4
         memory[3] = 16'b000_000_001_0000_011; // ADD  r0, r1, r3
-        memory[4] = 16'b011_000_011_0000010; // BEQ r0, r3, 2
+        memory[4] = 16'b011_000_011_0000010; // BEQ r, r3, 2
         memory[5] = 16'b010_100_001_0000010; // SUBI r4, r1, 2
         memory[6] = 16'b010_001_011_0000001; // SUBI r1, r3, 1
+        memory[7] = 16'b001_110_101_1111110; // ADDI r6, r5, -2 (signed)
+        memory[8] = 16'b010_111_110_1111111; // SUBI r7, r6, -1 (signed)
         // Additional instructions can be added here
     end
 
