@@ -3,6 +3,7 @@
 `include "register_file.v"
 `include "alu.v"
 `include "program_counter.v"
+`include "data_memory.v"
 
 module processor (
     input clk,                      // Clock signal
@@ -22,6 +23,8 @@ module processor (
     wire [9:0] branch_address;
     wire branch_enable;
     reg [9:0] next_pc;
+    wire mem_write;
+    wire [15:0] mem_address, mem_data;
 
     // Instruction memory instance
     instruction_memory imem (
@@ -51,6 +54,15 @@ module processor (
         .zero(zero)
     );
 
+    // Data memory instance
+    data_memory dmem (
+        .clk(clk),
+        .address(mem_address),
+        .write_data(mem_data),
+        .mem_write(mem_write),
+        .read_data() // Not used in this example
+    );
+
     // Program counter instance
     program_counter pc_inst (
         .clk(clk),
@@ -68,6 +80,11 @@ module processor (
     assign write_addr = instruction[12:10];
     assign write_data = (opcode == 3'b100) ? pc : alu_result; // Store current PC in rA for JALR
     assign write_enable = (opcode == 3'b000 || opcode == 3'b001 || opcode == 3'b010 || (opcode == 3'b100 && instruction[6:0] == 7'b0000000)); // ADD, ADDI, SUBI, JALR
+
+    // Memory write enable logic
+    assign mem_write = (opcode == 3'b110); // SW
+    assign mem_address = read_data2 + {{9{instruction[6]}}, instruction[6:0]}; // Address calculation for SW
+    assign mem_data = read_data1; // Data to be stored in memory for SW
 
     // Branch enable logic
     assign branch_enable = (opcode == 3'b011) && (regfile.reg_file[instruction[12:10]] == regfile.reg_file[instruction[9:7]]); // BEQ
@@ -87,7 +104,7 @@ module processor (
         if (opcode == 3'b100) begin
             next_pc = regfile.reg_file[read_addr1]; // Set next PC to the value in rB
         end else begin
-            next_pc = pc + 1; // Default to incrementing PC
+            next_pc = pc + 1; // Default to incrementing PCs
         end
     end
 
