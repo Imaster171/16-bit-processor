@@ -69,7 +69,7 @@ module processor (
 
     // Branch enable logic
     assign branch_enable = (opcode == 3'b100) && (regfile.reg_file[instruction[12:10]] == regfile.reg_file[instruction[9:7]]); // BEQ
-    assign branch_address = branch_enable ? {3'b0, instruction[6:0]} : 10'b0; // Immediate value for BEQ or zero if not branching
+    assign branch_address = branch_enable ? {{3{instruction[6]}}, instruction[6:0]} : 10'b0; // Sign-extended immediate value for BEQ or zero if not branching
 
     // Operand B selection
     always @(*) begin
