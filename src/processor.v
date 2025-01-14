@@ -19,12 +19,12 @@ module processor (
     wire write_enable;
     wire [15:0] alu_result;
     wire zero;
-    reg [15:0] operand_b;
     wire [9:0] branch_address;
     wire branch_enable;
-    reg [9:0] next_pc;
     wire mem_write;
-    wire [15:0] mem_address, mem_data;
+    wire [15:0] mem_address, mem_data, mem_read_data;
+    reg [15:0] operand_b;
+    reg [9:0] next_pc;
 
     // Instruction memory instance
     instruction_memory imem (
@@ -60,7 +60,7 @@ module processor (
         .address(mem_address),
         .write_data(mem_data),
         .mem_write(mem_write),
-        .read_data() // Not used in this example
+        .read_data(mem_read_data)
     );
 
     // Program counter instance
@@ -81,10 +81,10 @@ module processor (
     assign write_data = (opcode == 3'b100) ? pc : alu_result; // Store current PC in rA for JALR
     assign write_enable = (opcode == 3'b000 || opcode == 3'b001 || opcode == 3'b010 || (opcode == 3'b100 && instruction[6:0] == 7'b0000000)); // ADD, ADDI, SUBI, JALR
 
-    // Memory write enable logic
+    // Memory write enable logic (SW instruction)
     assign mem_write = (opcode == 3'b110); // SW
-    assign mem_address = read_data2 + {{9{instruction[6]}}, instruction[6:0]}; // Address calculation for SW
-    assign mem_data = read_data1; // Data to be stored in memory for SW
+    assign mem_address = read_data1 + {{9{instruction[6]}}, instruction[6:0]}; // Address calculation for SW
+    assign mem_data = regfile.reg_file[write_addr]; // Data to be stored in memory for SW
 
     // Branch enable logic
     assign branch_enable = (opcode == 3'b011) && (regfile.reg_file[instruction[12:10]] == regfile.reg_file[instruction[9:7]]); // BEQ

@@ -18,7 +18,8 @@ module instruction_memory (
         memory[7] = 16'b001_110_101_1111110; // ADDI r6, r5, -2
         memory[8] = 16'b010_111_110_1111111; // SUBI r7, r6, -1
         memory[9] = 16'b000_101_110_0000_111; // ADD r5, r6, r7
-
+        memory[10] = 16'b110_000_010_0000001; // SW r0, r2 + 1
+        memory[11] = 16'b110_001_000_0000001; // SW r1, r0 + 1
 
         // Additional instructions can be added here
     end
