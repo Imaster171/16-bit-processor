@@ -23,11 +23,6 @@ module processor_tb;
         // Apply reset
         #15 reset = 0;
 
-        // Test LW instruction
-        #15;
-        $display("Testing LW instruction");
-        // Add specific test cases for LW instruction here
-
         // Run until PC reaches 15
         wait (uut.pc == 15);
         #15 $finish;
