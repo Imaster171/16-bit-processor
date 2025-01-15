@@ -78,8 +78,11 @@ module processor (
     assign read_addr1 = instruction[9:7];
     assign read_addr2 = (opcode == 3'b001 || opcode == 3'b010) ? 3'b000 : instruction[2:0]; // Use 0 for immediate instructions
     assign write_addr = instruction[12:10];
-    assign write_data = (opcode == 3'b100) ? pc : alu_result; // Store current PC in rA for JALR
-    assign write_enable = (opcode == 3'b000 || opcode == 3'b001 || opcode == 3'b010 || (opcode == 3'b100 && instruction[6:0] == 7'b0000000)); // ADD, ADDI, SUBI, JALR
+    assign write_data = (opcode == 3'b100) ? pc : 
+                        (opcode == 3'b101) ? {instruction[9:0], 6'b0} : // LUI
+                        alu_result; // Store current PC in rA for JALR or LUI
+    assign write_enable = (opcode == 3'b000 || opcode == 3'b001 || opcode == 3'b010 || 
+                           (opcode == 3'b100 && instruction[6:0] == 7'b0000000) || opcode == 3'b101); // ADD, ADDI, SUBI, JALR, LUI
 
     // Memory write enable logic (SW instruction)
     assign mem_write = (opcode == 3'b110); // SW
