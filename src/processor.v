@@ -22,6 +22,7 @@ module processor (
     wire [9:0] branch_address;
     wire branch_enable;
     wire mem_write;
+    wire mem_read; // Wire for memory read enable
     wire [15:0] mem_address, mem_data, mem_read_data;
     reg [15:0] operand_b;
     reg [9:0] next_pc;
@@ -80,13 +81,15 @@ module processor (
     assign write_addr = instruction[12:10];
     assign write_data = (opcode == 3'b100) ? pc : 
                         (opcode == 3'b101) ? {instruction[9:0], 6'b0} : // LUI
+                        (opcode == 3'b111) ? mem_read_data : // LW
                         alu_result; // Store current PC in rA for JALR or LUI
     assign write_enable = (opcode == 3'b000 || opcode == 3'b001 || opcode == 3'b010 || 
-                           (opcode == 3'b100 && instruction[6:0] == 7'b0000000) || opcode == 3'b101); // ADD, ADDI, SUBI, JALR, LUI
+                           (opcode == 3'b100 && instruction[6:0] == 7'b0000000) || opcode == 3'b101 || opcode == 3'b111); // ADD, ADDI, SUBI, JALR, LUI, LW
 
     // Memory write enable logic (SW instruction)
     assign mem_write = (opcode == 3'b110); // SW
-    assign mem_address = read_data1 + {{9{instruction[6]}}, instruction[6:0]}; // Address calculation for SW
+    assign mem_read = (opcode == 3'b111); // LW
+    assign mem_address = read_data1 + {{9{instruction[6]}}, instruction[6:0]}; // Address calculation for SW and LW
     assign mem_data = regfile.reg_file[write_addr]; // Data to be stored in memory for SW
 
     // Branch enable logic
