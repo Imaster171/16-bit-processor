@@ -6,19 +6,19 @@ module data_memory (
     output reg [15:0] read_data     // Data read from memory
 );
 
-    // Memory array (1024 words, 16 bits each)
+    // Memory array
     reg [15:0] memory [0:1023];
 
+    // Asynchronous read operation
+    always @(*) begin
+        read_data = memory[address];
+    end
+    
     // Synchronous write operation
     always @(posedge clk) begin
         if (mem_write) begin
             memory[address] <= write_data;
         end
-    end
-
-    // Asynchronous read operation
-    always @(*) begin
-        read_data = memory[address];
     end
 
 endmodule

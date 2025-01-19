@@ -6,7 +6,6 @@ compile:
 run:
 	cd src && vvp processor_tb.vvp
 
-
 clean:
 	rm -f src/*.vvp
 

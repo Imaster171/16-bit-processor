@@ -11,7 +11,7 @@ module register_file(
 );
 
     // Declare the register file with 8 registers, each 16 bits wide
-    reg [15:0] reg_file [7:0];      // 8 registers, each 16 bits wide
+    reg [15:0] reg_file [7:0];
 
     // Initialize registers with default values
     initial begin
@@ -45,7 +45,7 @@ module register_file(
             reg_file[7] <= 16'b0;
         end
         else if (write_enable) begin
-            // Write data to the register if write_enable is high
+            // Write data to the register
             reg_file[write_addr] <= write_data;
         end
     end

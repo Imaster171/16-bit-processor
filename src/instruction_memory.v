@@ -1,12 +1,12 @@
 // Instruction Memory
 module instruction_memory (
-    input [9:0] address,           // Address to fetch the instruction
-    output reg [15:0] instruction // Output instruction
+    input [9:0] address,             // Address to fetch the instruction
+    output reg [15:0] instruction    // Output instruction
 );
-    // Memory array for instructions (1024 instructions max, 16-bit each)
+    // Memory array for instructions
     reg [15:0] memory [0:1023];
 
-    // Initialize instruction memory (example instructions, adjust as needed)
+    // Initialize instruction memory
     initial begin
         memory[0] = 16'b001_011_000_0000011;  // ADDI r3, r0, 3
         memory[1] = 16'b100_000_011_0000000;  // JALR r0, r3
@@ -23,9 +23,6 @@ module instruction_memory (
         memory[12] = 16'b110_001_000_0000001; // SW r1, r0, 1
         memory[13] = 16'b111_010_000_1111111; // LW r2, r0, -1
         memory[14] = 16'b111_011_000_0000001; // LW r3, r0, 1
-
-
-        // Additional instructions can be added here
     end
 
     // Fetch instruction based on address

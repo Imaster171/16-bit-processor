@@ -4,7 +4,7 @@ module processor_tb;
 
     reg clk;
     reg reset;
-    integer i; // Declare the integer variable outside the always block
+    integer i;
 
     // Instantiate the processor
     processor uut (
@@ -13,7 +13,7 @@ module processor_tb;
     );
 
     // Clock generation
-    always #15 clk = ~clk; // 10 time units period
+    always #15 clk = ~clk; // 15 time units period
 
     initial begin
         // Initialize signals
