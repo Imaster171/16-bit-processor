@@ -51,7 +51,7 @@ module processor (
     // ALU instance
     alu alu_inst (
         .a(reg_b_data),
-        .b((opcode == 3'b001 || opcode == 3'b010) ? {{12{instruction[3]}}, instruction[3:0]} : reg_c_data),
+        .b((opcode == 3'b001 || opcode == 3'b010) ? {{9{imm[6]}}, imm} : reg_c_data),
         .opcode(opcode),
         .result(alu_result),
         .zero(zero)
