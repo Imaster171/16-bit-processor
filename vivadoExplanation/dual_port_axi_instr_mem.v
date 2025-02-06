@@ -77,7 +77,6 @@ module dual_port_axi_instr_mem #
     wire [9:0] pc;
     wire [15:0] instruction;
     wire [15:0] reg_b, reg_c, reg_a;
-    reg doInstruction;
     reg [15:0] python_instruction;
     ////initiaizing the processor.v:
     processor riskvProcessor (
@@ -88,7 +87,6 @@ module dual_port_axi_instr_mem #
         .reg_b_data(reg_b),
         .reg_c_data(reg_c),
         .reg_a_data(reg_a),
-        .doInstruction(doInstruction),
         .python_instruction(python_instruction)
     );
 
@@ -101,26 +99,23 @@ module dual_port_axi_instr_mem #
 				if (S_AXI_WSTRB[1]) mem[S_AXI_AWADDR][15:8]  <= S_AXI_WDATA[15:8];
 				if (S_AXI_WSTRB[2]) mem[S_AXI_AWADDR][23:16] <= S_AXI_WDATA[23:16];
 				if (S_AXI_WSTRB[3]) mem[S_AXI_AWADDR][31:24] <= S_AXI_WDATA[31:24];/*
-                ////writing to the first 32 bits changing 1sand 0s:
+               	////writing to the first 32 bits changing 1sand 0s:
                 mem[0][31:0] <= 32'b11001100110011001100110011001100;
                 ////writing all 1s to the second one:
                 mem[1][31:0] <= 32'b11111111111111111111111111111111;*/
-
-                
-                python_instruction <= mem[0][15:0];
-                doInstruction <= mem[0][16];
-                // writing registries back out to memory:
-
-                mem[2][31:16] <= reg_a;
-                mem[2][15:0] <= reg_b;
-
-                mem[0][31:17] <= reg_c;
-                //mem[3][15:0] <= 16'b1111111111111111;
-                //mem[4][31:16] <= instruction;
-                
                 //THE ONLY WORKING MEMORY ADDRESSES:
                 //mem[0][31:0] <= 32'b11001100110011001100110011001100;//this corresponds to 0x0 32 bits.
                 //mem[2][31:0] <= 64'b11110000111100001111000011110000;//this corresponds to 0x4 32 bits.
+		//from our findings, we can only read and write from these 2*32 bit memory addresses using python, while in the testbench created with iverilog outputs works properly.
+
+		//getting instructions to our processor via python:
+                python_instruction <= mem[0][15:0];
+		
+                // writing registries back out to memory to read via python to make sure it all functions:
+		mem[0][31:16] <= reg_c;
+		
+                mem[2][31:16] <= reg_a;
+                mem[2][15:0] <= reg_b;
 		end
 	end
 
