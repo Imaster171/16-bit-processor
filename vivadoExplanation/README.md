@@ -63,3 +63,13 @@ We were asked to make it so that the memory of this slave AXI is used by our pro
 Unfortunately, we were only able to get 64 bits connected via Python and as the board and the .bit file creation via AMD Vivado is very flaky, we were unable to fully create what was asked of us.
 
 but a theoretically correct implementation would be to have aaccess to all 4K of the memory via the Python interface, and then replace our Processor memory file we created in the main src/ directory with this slave AXI memory and use its storage instead and possibly check if all that is being done by the FPGA is correct by using the Python interface via the ARM chip.
+
+# Power and Logic Unit Utilizations of Our designs:
+### Utilization of logic units:
+![image](https://github.com/Imaster171/16-bit-processor/blob/main/vivadoExplanation/Utilization.png)
+
+### Power Consumption of our AXI and Risc V processor:
+![image](https://github.com/Imaster171/16-bit-processor/blob/main/vivadoExplanation/powerConsumption.png)
+
+### Overall look of the design in AMD Vivado:
+![image](https://github.com/Imaster171/16-bit-processor/blob/main/vivadoExplanation/FPGAStructure.png)
