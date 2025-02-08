@@ -1,93 +1,57 @@
-# 16-bit Processor
-
-This project implements a 16-bit processor with basic arithmetic operations (ADD, SUB, ADDI, SUBI). The processor includes an instruction memory, register file, and ALU.
-
-## Directory Structure
-
-```
-16-bit-processor/
-├── src/
-│   ├── alu.v
-│   ├── instruction_memory.v
-│   ├── processor.v
-│   ├── processor_tb.v
-│   ├── register_file.v
-│   ├── program_counter.v
-│   ├── program_memory.v
-├── Makefile
-└── README.md
-```
-
-## Files
-
-- `src/alu.v`: Arithmetic Logic Unit (ALU) for performing arithmetic operations.
-- `src/instruction_memory.v`: Instruction memory to store and fetch instructions.
-- `src/processor.v`: Main processor module that integrates the instruction memory, register file, and ALU.
-- `src/processor_tb.v`: Testbench for the processor.
-- `src/register_file.v`: Register file to store and load values from registers.
-- `src/program_counter.v`: Program counter to keep track of the current instruction.
-- `src/program_memory.v`: Program memory to store the program instructions.
-- `Makefile`: Makefile to compile and run the testbench.
-- `README.md`: This file.
+# RISC-V 16-bit Processor on FPGA
 
 ## Overview
+This project implements a 16-bit RISC-V processor on an FPGA, capable of executing basic arithmetic operations like addition and subtraction. The processor includes an ALU, instruction memory, data memory, register file, and program counter.
 
-The 16-bit processor is designed to execute basic arithmetic operations such as ADD, SUB, ADDI, and SUBI. The processor consists of several components:
+### Supported Instructions
+- **ADD**: Add
+- **ADDI**: Add immediate
+- **SUBI**: Subtract immediate
+- **BEQ**: Branch if equal
+- **JALR**: Jump and link register
+- **LUI**: Load upper immediate
+- **SW**: Store word
+- **LW**: Load word
 
-- **Instruction Memory**: Stores the instructions to be executed by the processor.
-- **Register File**: Contains 8 registers, each 16 bits wide, to store intermediate values.
-- **ALU (Arithmetic Logic Unit)**: Performs arithmetic operations on the operands.
-- **Program Counter**: Keeps track of the current instruction being executed.
+## Processor Block Diagram
+![Processor Block Diagram](docs/processor_block_diagram.png)
 
-### Block Diagram
+## Modules
+- **Program Counter (PC)**: Tracks the address of the next instruction.
+- **Instruction Memory**: Stores machine code instructions.
+- **Register File**: Contains 8 general-purpose 16-bit registers.
+- **Arithmetic Logic Unit (ALU)**: Performs arithmetic and logical operations.
+- **Data Memory**: Stores and retrieves data during execution.
 
-![Processor Block Diagram](https://example.com/processor_block_diagram.png)
+## Vivado Implementation
+The design is implemented using AMD Vivado. The `dual_port_axi_instr_mem` module connects the RISC-V processor with the ARM processor's Python environment, enabling communication and real-time instruction transfer. A Python-based interface allows users to upload files through Jupyter notebooks. This interface facilitates memory access and processor state monitoring.
+
+## Testing
+Testbenches were developed for each module to validate operations and ensure consistency with design specifications.
 
 ## Instructions
-
 ### Compile the Project
-
 To compile the project, run the following command:
-
 ```sh
 make compile
 ```
 
 ### Run the Testbench
-
 To run the testbench, run the following command:
-
 ```sh
 make run
 ```
 
-### Clean the Project
+## Contributions
+- **Ilia Panayotov**: Verilog implementation, diagram design, presentation preparation.
+- **Esra Mehmedova**: Verilog implementation, paper review.
+- **Esin Mehmedova**: Writing sections 1, 2, and 3 of the paper.
+- **Paul Hagner**: Writing sections 4, 5, and 6 of the paper.
+- **Yigit Ilk**: Vivado implementation.
 
-To clean the compiled files, run the following command:
+## References
+1. [Verilog Code for 16-bit RISC Processor](https://www.fpga4student.com/2017/04/verilog-code-for-16-bit-risc-processor.html)
+2. [MIPS Store Word (SW) vs Load Word (LW)](https://www.alpharithms.com/mips-store-word-sw-vs-load-word-lw-475521/)
+3. [RISC-V Reference Card](https://ic.unicamp.br/~edson/disciplinas/mc404/material-riscv/extra/RISC-V-refcard.pdf)
+4. GitHub Copilot was used to assist in the Verilog implementation. [GitHub Copilot](https://github.com/features/copilot)
 
-```sh
-make clean
-```
-
-## How It Works
-
-1. **Instruction Fetch**: The program counter (PC) provides the address to the instruction memory, which fetches the instruction to be executed.
-2. **Instruction Decode**: The instruction is decoded to determine the operation (opcode) and the registers involved.
-3. **Operand Fetch**: The register file provides the operands for the ALU based on the decoded instruction.
-4. **Execute**: The ALU performs the arithmetic operation specified by the opcode.
-5. **Write Back**: The result of the ALU operation is written back to the register file.
-6. **Update PC**: The program counter is updated to point to the next instruction.
-
-## Example Output
-
-The testbench will display the state of the processor, including the program counter, instruction, opcode, register addresses, register values, and ALU result.
-
-```
-Time: 20 | PC: 1 | Instruction: 0100110000000110 | Opcode: 010 | ReadAddr1: 0 | ReadAddr2: 0 | WriteAddr: 3 | ReadData1: 0 | ReadData2: 0 | ALUResult: 6 | WriteEnable: 1
-Registers: r0: 0 | r1: 0 | r2: 0 | r3: 6 | r4: 0 | r5: 0 | r6: 0 | r7: 0
-...
-```
-
-## License
-
-This project is not licensed.
