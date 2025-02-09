@@ -14,7 +14,7 @@ This project implements a 16-bit RISC-V processor on an FPGA, capable of executi
 - **LW**: Load word
 
 ## Processor Block Diagram
-![Processor Block Diagram](docs/processor_block_diagram.png)
+![Processor Block Diagram](../Images%20of%20components/processor_block_diagram.png)
 
 ## Modules
 - **Program Counter (PC)**: Tracks the address of the next instruction.
@@ -41,17 +41,3 @@ To run the testbench, run the following command:
 ```sh
 make run
 ```
-
-## Contributions
-- **Ilia Panayotov**: Verilog implementation, diagram design, presentation preparation.
-- **Esra Mehmedova**: Verilog implementation, paper review.
-- **Esin Mehmedova**: Writing sections 1, 2, and 3 of the paper.
-- **Paul Hagner**: Writing sections 4, 5, and 6 of the paper.
-- **Yigit Ilk**: Vivado implementation.
-
-## References
-1. [Verilog Code for 16-bit RISC Processor](https://www.fpga4student.com/2017/04/verilog-code-for-16-bit-risc-processor.html)
-2. [MIPS Store Word (SW) vs Load Word (LW)](https://www.alpharithms.com/mips-store-word-sw-vs-load-word-lw-475521/)
-3. [RISC-V Reference Card](https://ic.unicamp.br/~edson/disciplinas/mc404/material-riscv/extra/RISC-V-refcard.pdf)
-4. GitHub Copilot was used to assist in the Verilog implementation. [GitHub Copilot](https://github.com/features/copilot)
-
