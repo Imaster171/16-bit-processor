@@ -14,7 +14,7 @@ This project implements a 16-bit RISC-V processor on an FPGA, capable of executi
 - **LW**: Load word
 
 ## Processor Block Diagram
-![Processor Block Diagram](../Images%20of%20components/processor_block_diagram.png)
+![Processor Block Diagram](Images%20of%20components/Untitled%20Diagram.svg)
 
 ## Modules
 - **Program Counter (PC)**: Tracks the address of the next instruction.
